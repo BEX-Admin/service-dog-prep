@@ -15,7 +15,18 @@ class _AuthScreenState extends State<AuthScreen> {
   bool _isProfessional = false;
   bool _isLoading = false;
   bool _isSignUp = false;
+  bool _obscurePassword = true;
   String? _error;
+
+
+  bool _isPasswordStrong(String password) {
+    if (password.length < 12) return false;
+    final hasUpper = password.contains(RegExp(r'[A-Z]'));
+    final hasLower = password.contains(RegExp(r'[a-z]'));
+    final hasDigit = password.contains(RegExp(r'[0-9]'));
+    final hasSpecial = password.contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>]'));
+    return hasUpper && hasLower && hasDigit && hasSpecial;
+  }
 
   Future<void> _submit() async {
     setState(() {
@@ -25,6 +36,11 @@ class _AuthScreenState extends State<AuthScreen> {
     try {
       final service = context.read<AppState>().supabaseService;
       if (_isSignUp) {
+        if (!_isPasswordStrong(_passwordController.text)) {
+          setState(() => _error = 'Password must be at least 12 characters and include uppercase, lowercase, a number, and a special symbol.');
+          setState(() => _isLoading = false);
+          return;
+        }
         await service.client.auth.signUp(
           email: _emailController.text.trim(),
           password: _passwordController.text,
@@ -41,6 +57,7 @@ class _AuthScreenState extends State<AuthScreen> {
         );
         if (mounted) {
           context.read<AppState>().login(professional: _isProfessional);
+          if (Navigator.of(context).canPop()) Navigator.of(context).pop();
         }
       }
     } catch (e) {
@@ -52,6 +69,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   void _demoLogin() {
     context.read<AppState>().login(professional: _isProfessional);
+    if (Navigator.of(context).canPop()) Navigator.of(context).pop();
   }
 
   @override
@@ -145,12 +163,17 @@ class _AuthScreenState extends State<AuthScreen> {
                           const SizedBox(height: 16),
                           TextField(
                             controller: _passwordController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               labelText: 'Password',
-                              border: OutlineInputBorder(),
-                              prefixIcon: Icon(Icons.lock_outline),
+                              border: const OutlineInputBorder(),
+                              prefixIcon: const Icon(Icons.lock_outline),
+                              suffixIcon: IconButton(
+                                icon: Icon(_obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                                onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                              ),
+                              helperText: _isSignUp ? 'Min 12 chars, upper, lower, number, special symbol' : null,
                             ),
-                            obscureText: true,
+                            obscureText: _obscurePassword,
                           ),
                           if (_error != null) ...[
                             const SizedBox(height: 12),

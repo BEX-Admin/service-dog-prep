@@ -160,49 +160,100 @@ class _LandingScreenState extends State<LandingScreen> {
                             ),
                           ),
                         ),
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(24),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset('assets/logo.png', height: isWide ? 140 : 100),
-                                const SizedBox(height: 16),
-                                const Text(
-                                  'We Love Dogs.',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 48,
-                                    fontWeight: FontWeight.bold,
-                                    shadows: [Shadow(blurRadius: 8, color: Colors.black54)],
-                                  ),
+                        Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: isWide
+                              ? Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 5,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Image.asset('assets/logo.png', height: 140),
+                                          const SizedBox(height: 16),
+                                          const Text(
+                                            'We Love Dogs.',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 48,
+                                              fontWeight: FontWeight.bold,
+                                              shadows: [Shadow(blurRadius: 8, color: Colors.black54)],
+                                            ),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          const Text(
+                                            'A well-trained dog is a happy dog.',
+                                            style: TextStyle(
+                                              color: Color(0xFFD4AF37),
+                                              fontSize: 28,
+                                              fontWeight: FontWeight.w600,
+                                              shadows: [Shadow(blurRadius: 6, color: Colors.black54)],
+                                            ),
+                                          ),
+                                          const SizedBox(height: 24),
+                                          ElevatedButton(
+                                            onPressed: _goToAuth,
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: const Color(0xFFD4AF37),
+                                              foregroundColor: const Color(0xFF1A2A4A),
+                                              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                                              textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                            ),
+                                            child: const Text('Get Started — Log In'),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(width: 24),
+                                    Expanded(
+                                      flex: 4,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.45),
+                                          borderRadius: BorderRadius.circular(16),
+                                        ),
+                                        child: ListView(
+                                          padding: const EdgeInsets.all(16),
+                                          children: [
+                                            const Text('What families & trainers say', style: TextStyle(color: Color(0xFFD4AF37), fontSize: 18, fontWeight: FontWeight.bold)),
+                                            const SizedBox(height: 12),
+                                            _testimonial('“My dog is calmer and happier than ever. We can actually enjoy walks together.”', 'Sarah & Max'),
+                                            _testimonial('“The Professional Edition finally gave me one place to track every dog and share progress with owners.”', 'James, CPDT'),
+                                            _testimonial('“Training no longer feels like a chore. It’s something we look forward to.”', 'The Chen Family'),
+                                            _testimonial('“We finally feel confident taking our dog everywhere — stores, restaurants, travel.”', 'The Patel Family'),
+                                            _testimonial('“Clear reports and suggestions make it easy to keep owners engaged between sessions.”', 'Maria, Trainer'),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset('assets/logo.png', height: 100),
+                                    const SizedBox(height: 12),
+                                    const Text(
+                                      'We Love Dogs.',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold, shadows: [Shadow(blurRadius: 8, color: Colors.black54)]),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    const Text(
+                                      'A well-trained dog is a happy dog.',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Color(0xFFD4AF37), fontSize: 22, fontWeight: FontWeight.w600, shadows: [Shadow(blurRadius: 6, color: Colors.black54)]),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    ElevatedButton(
+                                      onPressed: _goToAuth,
+                                      style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFD4AF37), foregroundColor: const Color(0xFF1A2A4A)),
+                                      child: const Text('Get Started — Log In'),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 8),
-                                const Text(
-                                  'A well-trained dog is a happy dog.',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFFD4AF37),
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.w600,
-                                    shadows: [Shadow(blurRadius: 6, color: Colors.black54)],
-                                  ),
-                                ),
-                                const SizedBox(height: 24),
-                                ElevatedButton(
-                                  onPressed: _goToAuth,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFFD4AF37),
-                                    foregroundColor: const Color(0xFF1A2A4A),
-                                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                                    textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                  ),
-                                  child: const Text('Get Started — Log In'),
-                                ),
-                              ],
-                            ),
-                          ),
                         ),
                         // dots
                         Positioned(
