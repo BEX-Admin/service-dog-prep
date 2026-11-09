@@ -1,11 +1,11 @@
 {
-    "name": "Service Dog Prep",
-    "short_name": "Service Dog Prep",
+    "name": "Service Dog Trainer Pro",
+    "short_name": "SDT Pro",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "Prepare your dog for public access and CGC standards.",
+    "background_color": "#1A2A4A",
+    "theme_color": "#1A2A4A",
+    "description": "A well-trained dog is a happy dog. Training for family pets, service dogs, and professional trainers.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
