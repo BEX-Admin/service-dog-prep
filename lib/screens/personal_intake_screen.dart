@@ -1,3 +1,22 @@
+
+String formatUsPhone(String raw) {
+  final digits = raw.replaceAll(RegExp(r'\D'), '');
+  if (digits.isEmpty) return '';
+  final d = digits.length > 10 ? digits.substring(0, 10) : digits;
+  if (d.length <= 3) return '($d';
+  if (d.length <= 6) return '(${d.substring(0, 3)}) ${d.substring(3)}';
+  return '(${d.substring(0, 3)}) ${d.substring(3, 6)}-${d.substring(6)}';
+}
+
+String formatBirthdate(String raw) {
+  final digits = raw.replaceAll(RegExp(r'\D'), '');
+  if (digits.isEmpty) return '';
+  final d = digits.length > 8 ? digits.substring(0, 8) : digits;
+  if (d.length <= 2) return d;
+  if (d.length <= 4) return '${d.substring(0, 2)}/${d.substring(2)}';
+  return '${d.substring(0, 2)}/${d.substring(2, 4)}/${d.substring(4)}';
+}
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state.dart';
@@ -20,15 +39,7 @@ class _PersonalIntakeScreenState extends State<PersonalIntakeScreen> {
   final _zip = TextEditingController();
   final List<_DogForm> _forms = [_DogForm()];
 
-  String _formatPhone(String raw) {
-    final digits = raw.replaceAll(RegExp(r'\D'), '');
-    if (digits.isEmpty) return '';
-    var d = digits;
-    if (d.startsWith('1') && d.length > 10) d = d.substring(1);
-    if (d.length <= 3) return '+1 ($d';
-    if (d.length <= 6) return '+1 (${d.substring(0, 3)}) ${d.substring(3)}';
-    return '+1 (${d.substring(0, 3)}) ${d.substring(3, 6)}-${d.substring(6, d.length.clamp(6, 10))}';
-  }
+
 
   void _addDog() {
     if (_forms.length < 3) setState(() => _forms.add(_DogForm()));
@@ -104,10 +115,10 @@ class _PersonalIntakeScreenState extends State<PersonalIntakeScreen> {
           TextFormField(controller: _ownerEmail, decoration: const InputDecoration(labelText: 'Email'), keyboardType: TextInputType.emailAddress),
           TextFormField(
             controller: _ownerPhone,
-            decoration: const InputDecoration(labelText: 'Phone', hintText: '+1 (555) 123-4567'),
+            decoration: const InputDecoration(labelText: 'Phone', hintText: '(555) 123-4567'),
             keyboardType: TextInputType.phone,
             onChanged: (v) {
-              final formatted = _formatPhone(v);
+              final formatted = formatUsPhone(v);
               if (formatted != v) {
                 _ownerPhone.value = TextEditingValue(text: formatted, selection: TextSelection.collapsed(offset: formatted.length));
               }
@@ -244,7 +255,17 @@ class _DogCard extends StatelessWidget {
             TextFormField(controller: form.nameController, decoration: const InputDecoration(labelText: 'Name *')),
             TextFormField(controller: form.akcNameController, decoration: const InputDecoration(labelText: 'AKC registered name (if any)')),
             TextFormField(controller: form.akcNumberController, decoration: const InputDecoration(labelText: 'AKC number (if registered)')),
-            TextFormField(controller: form.birthdateController, decoration: const InputDecoration(labelText: 'Birthdate (approx ok if unknown)', hintText: 'YYYY-MM-DD or approx')),
+            TextFormField(
+              controller: form.birthdateController,
+              decoration: const InputDecoration(labelText: 'Birthdate (approx ok if unknown)', hintText: 'MM/DD/YYYY'),
+              keyboardType: TextInputType.number,
+              onChanged: (v) {
+                final formatted = formatBirthdate(v);
+                if (formatted != v) {
+                  form.birthdateController.value = TextEditingValue(text: formatted, selection: TextSelection.collapsed(offset: formatted.length));
+                }
+              },
+            ),
             _BreedField(controller: form.breedController),
             TextFormField(controller: form.ageController, decoration: const InputDecoration(labelText: 'Age (years)'), keyboardType: TextInputType.number),
             DropdownButtonFormField<String>(
