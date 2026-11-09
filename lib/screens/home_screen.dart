@@ -52,7 +52,11 @@ class HomeScreen extends StatelessWidget {
                 Center(
                   child: Column(
                     children: [
-                      Image.asset('assets/logo.png', height: 160),
+                      Image.network(
+                        'https://nacbocdblmvpbvtinuzj.supabase.co/storage/v1/object/public/dog-photos/logo.png',
+                        height: 160,
+                        errorBuilder: (_, __, ___) => const Icon(Icons.pets, size: 80, color: Colors.white70),
+                      ),
                       const SizedBox(height: 8),
                       const Text(
                         'Service Dog Trainer Pro',
