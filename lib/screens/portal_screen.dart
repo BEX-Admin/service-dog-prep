@@ -17,7 +17,7 @@ class PortalScreen extends StatelessWidget {
     final heroImage = (dog != null && dog.photos.isNotEmpty) ? dog.photos.first : null;
 
     return AppShell(
-      title: isPro ? 'Professional Portal' : 'Personal Portal',
+      title: isPro ? 'Professional Portal' : 'Your Portal',
       body: ListView(
         children: [
           // Hero with dog photo or placeholder

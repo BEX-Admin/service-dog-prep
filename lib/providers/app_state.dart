@@ -13,6 +13,24 @@ class AppState extends ChangeNotifier {
   Map<String, double> skillMastery = {};
   final SupabaseService supabaseService = SupabaseService();
 
+  AppState() {
+    _restoreSession();
+  }
+
+  Future<void> _restoreSession() async {
+    try {
+      final user = supabaseService.currentUser;
+      if (user != null) {
+        isLoggedIn = true;
+        // Keep professional flag simple for now; can be stored in user metadata later
+        notifyListeners();
+        await _loadRemoteDogs();
+      }
+    } catch (e) {
+      debugPrint('Session restore failed: $e');
+    }
+  }
+
   void login({required bool professional}) {
     isLoggedIn = true;
     isProfessional = professional;
@@ -49,7 +67,10 @@ class AppState extends ChangeNotifier {
     }
   }
 
-  void logout() {
+  Future<void> logout() async {
+    try {
+      await supabaseService.signOut();
+    } catch (_) {}
     isLoggedIn = false;
     dogs.clear();
     sessions.clear();
