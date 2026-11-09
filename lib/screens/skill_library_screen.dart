@@ -16,7 +16,16 @@ class SkillLibraryScreen extends StatelessWidget {
           return ListTile(
             title: Text(s.name),
             subtitle: Text(s.category),
-            trailing: Text(s.standard),
+            onTap: () => showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                title: Text(s.name),
+                content: Text(s.description),
+                actions: [
+                  TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close')),
+                ],
+              ),
+            ),
           );
         },
       ),
