@@ -18,6 +18,50 @@ String formatBirthdate(String raw) {
   return '${d.substring(0, 2)}/${d.substring(2, 4)}/${d.substring(4)}';
 }
 
+
+import 'package:flutter/services.dart';
+
+class UsPhoneFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    final digits = newValue.text.replaceAll(RegExp(r'\D'), '');
+    final d = digits.length > 10 ? digits.substring(0, 10) : digits;
+    String formatted;
+    if (d.isEmpty) formatted = '';
+    else if (d.length <= 3) formatted = '($d';
+    else if (d.length <= 6) formatted = '(${d.substring(0, 3)}) ${d.substring(3)}';
+    else formatted = '(${d.substring(0, 3)}) ${d.substring(3, 6)}-${d.substring(6)}';
+    return TextEditingValue(text: formatted, selection: TextSelection.collapsed(offset: formatted.length));
+  }
+}
+
+class BirthdateFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    final digits = newValue.text.replaceAll(RegExp(r'\D'), '');
+    final d = digits.length > 8 ? digits.substring(0, 8) : digits;
+    String formatted;
+    if (d.isEmpty) formatted = '';
+    else if (d.length <= 2) formatted = d;
+    else if (d.length <= 4) formatted = '${d.substring(0, 2)}/${d.substring(2)}';
+    else formatted = '${d.substring(0, 2)}/${d.substring(2, 4)}/${d.substring(4)}';
+    return TextEditingValue(text: formatted, selection: TextSelection.collapsed(offset: formatted.length));
+  }
+}
+
+int ageFromBirthdate(String mmddyyyy) {
+  final parts = mmddyyyy.split('/');
+  if (parts.length != 3 || parts[2].length != 4) return 0;
+  final month = int.tryParse(parts[0]) ?? 0;
+  final day = int.tryParse(parts[1]) ?? 0;
+  final year = int.tryParse(parts[2]) ?? 0;
+  if (month < 1 || month > 12 || day < 1 || year < 1900) return 0;
+  final now = DateTime.now();
+  int age = now.year - year;
+  if (now.month < month || (now.month == month && now.day < day)) age--;
+  return age < 0 ? 0 : age;
+}
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state.dart';
@@ -120,12 +164,7 @@ class _PersonalIntakeScreenState extends State<PersonalIntakeScreen> {
             controller: _ownerPhone,
             decoration: const InputDecoration(labelText: 'Phone', hintText: '(555) 123-4567'),
             keyboardType: TextInputType.phone,
-            onChanged: (v) {
-              final formatted = formatUsPhone(v);
-              if (formatted != v) {
-                _ownerPhone.value = TextEditingValue(text: formatted, selection: TextSelection.collapsed(offset: formatted.length));
-              }
-            },
+            inputFormatters: [UsPhoneFormatter()],
           ),
           TextFormField(controller: _address, decoration: const InputDecoration(labelText: 'Address')),
           Row(
@@ -260,17 +299,16 @@ class _DogCard extends StatelessWidget {
             TextFormField(controller: form.akcNumberController, decoration: const InputDecoration(labelText: 'AKC number (if registered)')),
             TextFormField(
               controller: form.birthdateController,
-              decoration: const InputDecoration(labelText: 'Birthdate (approx ok if unknown)', hintText: 'MM/DD/YYYY'),
+              decoration: const InputDecoration(labelText: 'Birthdate (MM/DD/YYYY)', hintText: 'MM/DD/YYYY'),
               keyboardType: TextInputType.number,
+              inputFormatters: [BirthdateFormatter()],
               onChanged: (v) {
-                final formatted = formatBirthdate(v);
-                if (formatted != v) {
-                  form.birthdateController.value = TextEditingValue(text: formatted, selection: TextSelection.collapsed(offset: formatted.length));
-                }
+                final age = ageFromBirthdate(v);
+                if (age > 0) form.ageController.text = age.toString();
               },
             ),
             _BreedField(controller: form.breedController),
-            TextFormField(controller: form.ageController, decoration: const InputDecoration(labelText: 'Age (years)'), keyboardType: TextInputType.number),
+            TextFormField(controller: form.ageController, decoration: const InputDecoration(labelText: 'Age (calculated from birthdate)'), readOnly: true),
             DropdownButtonFormField<String>(
               value: form.size,
               decoration: const InputDecoration(labelText: 'Size'),
@@ -282,13 +320,15 @@ class _DogCard extends StatelessWidget {
               decoration: const InputDecoration(labelText: 'Primary training path'),
               items: const [
                 'Happy Pet / Family Manners',
-                'AKC S.T.A.R. Puppy',
-                'AKC CGC / CGCA / CGCU',
-                'ADI Public Access / Service Dog',
-                'PSD / ESA / Therapy',
+                'AKC S.T.A.R. Puppy (early socialization)',
+                'AKC Canine Good Citizen (CGC) and Advanced / Urban',
+                'Assistance Dogs International Public Access / Service Dog',
+                'Psychiatric Service Dog (PSD)',
+                'Emotional Support Animal (ESA)',
+                'Therapy Dog',
                 'Trick Dog',
-                'NAVHDA / Hunting',
-                'European / JGHV',
+                'Hunting dog standards (NAVHDA, AKC Hunt Tests)',
+                'European / JGHV field standards',
               ].map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
               onChanged: (v) => form.trainingPath = v ?? form.trainingPath,
             ),

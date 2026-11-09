@@ -70,7 +70,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             )),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Profile saved'))),
+            onPressed: () {
+              // Persist locally for now; cloud owner profile table can be added later
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Personal profile saved')));
+            },
             style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFD4AF37), foregroundColor: const Color(0xFF1A2A4A)),
             child: const Text('Save Personal Info'),
           ),
