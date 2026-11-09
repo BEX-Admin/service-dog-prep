@@ -19,6 +19,14 @@ class Dog {
   final int numberOfTrainers;
   final String trainingPath; // e.g. ADI Public Access, AKC CGC, NAVHDA, etc.
   final String notes;
+  final String akcName;
+  final String akcNumber;
+  final String birthdate;
+  final String allergies;
+  final String city;
+  final String state;
+  final String zip;
+  final String billingAddress;
 
   Dog({
     required this.id,
@@ -41,6 +49,14 @@ class Dog {
     this.numberOfTrainers = 1,
     this.trainingPath = 'Happy Pet / Family Manners',
     this.notes = '',
+    this.akcName = '',
+    this.akcNumber = '',
+    this.birthdate = '',
+    this.allergies = '',
+    this.city = '',
+    this.state = '',
+    this.zip = '',
+    this.billingAddress = '',
   });
 
   factory Dog.fromMap(Map<String, dynamic> map) {
@@ -64,6 +80,14 @@ class Dog {
       numberOfTrainers: map['number_of_trainers'] ?? 1,
       trainingPath: map['training_path'] ?? 'Happy Pet / Family Manners',
       notes: map['notes'] ?? '',
+      akcName: map['akc_name'] ?? '',
+      akcNumber: map['akc_number'] ?? '',
+      birthdate: map['birthdate'] ?? '',
+      allergies: map['allergies'] ?? '',
+      city: map['city'] ?? '',
+      state: map['state'] ?? '',
+      zip: map['zip'] ?? '',
+      billingAddress: map['billing_address'] ?? '',
     );
   }
 
@@ -87,5 +111,13 @@ class Dog {
         'number_of_trainers': numberOfTrainers,
         'training_path': trainingPath,
         'notes': notes,
+        'akc_name': akcName,
+        'akc_number': akcNumber,
+        'birthdate': birthdate,
+        'allergies': allergies,
+        'city': city,
+        'state': state,
+        'zip': zip,
+        'billing_address': billingAddress,
       };
 }

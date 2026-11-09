@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state.dart';
+import 'portal_screen.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -57,7 +58,7 @@ class _AuthScreenState extends State<AuthScreen> {
         );
         if (mounted) {
           context.read<AppState>().login(professional: _isProfessional);
-          if (Navigator.of(context).canPop()) Navigator.of(context).pop();
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const PortalScreen()));
         }
       }
     } catch (e) {
@@ -69,7 +70,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   void _demoLogin() {
     context.read<AppState>().login(professional: _isProfessional);
-    if (Navigator.of(context).canPop()) Navigator.of(context).pop();
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const PortalScreen()));
   }
 
   @override

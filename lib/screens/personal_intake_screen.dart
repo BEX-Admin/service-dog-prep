@@ -15,7 +15,20 @@ class _PersonalIntakeScreenState extends State<PersonalIntakeScreen> {
   final _ownerEmail = TextEditingController();
   final _ownerPhone = TextEditingController();
   final _address = TextEditingController();
+  final _city = TextEditingController();
+  final _state = TextEditingController();
+  final _zip = TextEditingController();
   final List<_DogForm> _forms = [_DogForm()];
+
+  String _formatPhone(String raw) {
+    final digits = raw.replaceAll(RegExp(r'\D'), '');
+    if (digits.isEmpty) return '';
+    var d = digits;
+    if (d.startsWith('1') && d.length > 10) d = d.substring(1);
+    if (d.length <= 3) return '+1 ($d';
+    if (d.length <= 6) return '+1 (${d.substring(0, 3)}) ${d.substring(3)}';
+    return '+1 (${d.substring(0, 3)}) ${d.substring(3, 6)}-${d.substring(6, d.length.clamp(6, 10))}';
+  }
 
   void _addDog() {
     if (_forms.length < 3) setState(() => _forms.add(_DogForm()));
@@ -89,8 +102,27 @@ class _PersonalIntakeScreenState extends State<PersonalIntakeScreen> {
           _sectionTitle('About You'),
           TextFormField(controller: _ownerName, decoration: const InputDecoration(labelText: 'Your name / family name')),
           TextFormField(controller: _ownerEmail, decoration: const InputDecoration(labelText: 'Email'), keyboardType: TextInputType.emailAddress),
-          TextFormField(controller: _ownerPhone, decoration: const InputDecoration(labelText: 'Phone'), keyboardType: TextInputType.phone),
-          TextFormField(controller: _address, decoration: const InputDecoration(labelText: 'City / area (optional)')),
+          TextFormField(
+            controller: _ownerPhone,
+            decoration: const InputDecoration(labelText: 'Phone', hintText: '+1 (555) 123-4567'),
+            keyboardType: TextInputType.phone,
+            onChanged: (v) {
+              final formatted = _formatPhone(v);
+              if (formatted != v) {
+                _ownerPhone.value = TextEditingValue(text: formatted, selection: TextSelection.collapsed(offset: formatted.length));
+              }
+            },
+          ),
+          TextFormField(controller: _address, decoration: const InputDecoration(labelText: 'Billing street address')),
+          Row(
+            children: [
+              Expanded(flex: 3, child: TextFormField(controller: _city, decoration: const InputDecoration(labelText: 'City'))),
+              const SizedBox(width: 8),
+              Expanded(flex: 1, child: TextFormField(controller: _state, decoration: const InputDecoration(labelText: 'State'))),
+              const SizedBox(width: 8),
+              Expanded(flex: 2, child: TextFormField(controller: _zip, decoration: const InputDecoration(labelText: 'Zip'), keyboardType: TextInputType.number)),
+            ],
+          ),
           const SizedBox(height: 28),
           _sectionTitle('Your Dogs (up to 3)'),
           ...List.generate(_forms.length, (i) => _DogCard(
@@ -129,8 +161,12 @@ class _PersonalIntakeScreenState extends State<PersonalIntakeScreen> {
 
 class _DogForm {
   final nameController = TextEditingController();
+  final akcNameController = TextEditingController();
+  final akcNumberController = TextEditingController();
   final breedController = TextEditingController();
   final ageController = TextEditingController();
+  final birthdateController = TextEditingController();
+  final allergiesController = TextEditingController();
   final temperamentController = TextEditingController();
   final fearsController = TextEditingController();
   final goalsController = TextEditingController();
@@ -147,8 +183,12 @@ class _DogForm {
     required String address,
   }) => {
     'name': nameController.text.trim(),
+    'akc_name': akcNameController.text.trim(),
+    'akc_number': akcNumberController.text.trim(),
     'breed': breedController.text.trim(),
     'age': int.tryParse(ageController.text) ?? 0,
+    'birthdate': birthdateController.text.trim(),
+    'allergies': allergiesController.text.trim(),
     'size': size,
     'temperament': temperamentController.text.trim(),
     'fears': fearsController.text.trim(),
@@ -192,7 +232,10 @@ class _DogCard extends StatelessWidget {
               ],
             ),
             TextFormField(controller: form.nameController, decoration: const InputDecoration(labelText: 'Name *')),
-            TextFormField(controller: form.breedController, decoration: const InputDecoration(labelText: 'Breed')),
+            TextFormField(controller: form.akcNameController, decoration: const InputDecoration(labelText: 'AKC registered name (if any)')),
+            TextFormField(controller: form.akcNumberController, decoration: const InputDecoration(labelText: 'AKC number (if registered)')),
+            TextFormField(controller: form.birthdateController, decoration: const InputDecoration(labelText: 'Birthdate (approx ok if unknown)', hintText: 'YYYY-MM-DD or approx')),
+            _BreedField(controller: form.breedController),
             TextFormField(controller: form.ageController, decoration: const InputDecoration(labelText: 'Age (years)'), keyboardType: TextInputType.number),
             DropdownButtonFormField<String>(
               value: form.size,
@@ -220,10 +263,88 @@ class _DogCard extends StatelessWidget {
             TextFormField(controller: form.goalsController, decoration: const InputDecoration(labelText: 'Goals (comma separated)', hintText: 'Better walks, CGC, public access...')),
             TextFormField(controller: form.habitsController, decoration: const InputDecoration(labelText: 'Daily routine / habits'), maxLines: 2),
             TextFormField(controller: form.healthController, decoration: const InputDecoration(labelText: 'Health notes (optional)'), maxLines: 2),
+            TextFormField(controller: form.allergiesController, decoration: const InputDecoration(labelText: 'Allergies / food sensitivities'), maxLines: 2),
             TextFormField(controller: form.notesController, decoration: const InputDecoration(labelText: 'Anything else we should know'), maxLines: 2),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _BreedField extends StatefulWidget {
+  final TextEditingController controller;
+  const _BreedField({required this.controller});
+  @override
+  State<_BreedField> createState() => _BreedFieldState();
+}
+
+class _BreedFieldState extends State<_BreedField> {
+  static const _breeds = [
+    'Labrador Retriever', 'Golden Retriever', 'German Shepherd', 'French Bulldog', 'Poodle',
+    'Bulldog', 'Beagle', 'Rottweiler', 'German Shorthaired Pointer', 'Dachshund',
+    'Pembroke Welsh Corgi', 'Australian Shepherd', 'Yorkshire Terrier', 'Boxer', 'Cavalier King Charles Spaniel',
+    'Doberman Pinscher', 'Great Dane', 'Miniature Schnauzer', 'Siberian Husky', 'Bernese Mountain Dog',
+    'Shih Tzu', 'Boston Terrier', 'Pomeranian', 'Havanese', 'Shetland Sheepdog',
+    'Brittany', 'English Springer Spaniel', 'Cocker Spaniel', 'Border Collie', 'Maltese',
+    'Boykin Spaniel', 'Vizsla', 'Weimaraner', 'Portuguese Water Dog', 'Standard Schnauzer',
+    'Mixed Breed', 'Other',
+  ];
+  String _query = '';
+  bool _isMix = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final matches = _query.isEmpty
+        ? _breeds
+        : _breeds.where((b) => b.toLowerCase().contains(_query.toLowerCase())).toList();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          controller: widget.controller,
+          decoration: const InputDecoration(labelText: 'Breed (search AKC & international)', hintText: 'Start typing...'),
+          onChanged: (v) => setState(() => _query = v),
+        ),
+        if (_query.isNotEmpty && matches.isNotEmpty)
+          Container(
+            constraints: const BoxConstraints(maxHeight: 140),
+            decoration: BoxDecoration(border: Border.all(color: Colors.grey.shade300), borderRadius: BorderRadius.circular(8)),
+            child: ListView(
+              shrinkWrap: true,
+              children: matches.take(8).map((b) => ListTile(
+                dense: true,
+                title: Text(b),
+                onTap: () {
+                  if (b == 'Mixed Breed') {
+                    setState(() {
+                      _isMix = true;
+                      widget.controller.text = 'Mixed: ';
+                      _query = '';
+                    });
+                  } else if (b == 'Other') {
+                    setState(() {
+                      widget.controller.text = 'Other: ';
+                      _query = '';
+                    });
+                  } else {
+                    setState(() {
+                      widget.controller.text = b;
+                      _query = '';
+                    });
+                  }
+                },
+              )).toList(),
+            ),
+          ),
+        if (_isMix) ...[
+          const SizedBox(height: 4),
+          const Text('Enter up to 3 breeds in the mix (optional)', style: TextStyle(fontSize: 12, color: Colors.grey)),
+          TextFormField(decoration: const InputDecoration(labelText: 'Mix breed 1')),
+          TextFormField(decoration: const InputDecoration(labelText: 'Mix breed 2')),
+          TextFormField(decoration: const InputDecoration(labelText: 'Mix breed 3')),
+        ],
+      ],
     );
   }
 }
