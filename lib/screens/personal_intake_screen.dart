@@ -167,6 +167,10 @@ class _DogForm {
   final ageController = TextEditingController();
   final birthdateController = TextEditingController();
   final allergiesController = TextEditingController();
+  final microchipController = TextEditingController();
+  final vetNameController = TextEditingController();
+  final vetContactController = TextEditingController();
+  String? photoUrl;
   final temperamentController = TextEditingController();
   final fearsController = TextEditingController();
   final goalsController = TextEditingController();
@@ -189,6 +193,10 @@ class _DogForm {
     'age': int.tryParse(ageController.text) ?? 0,
     'birthdate': birthdateController.text.trim(),
     'allergies': allergiesController.text.trim(),
+    'microchip': microchipController.text.trim(),
+    'vet_name': vetNameController.text.trim(),
+    'vet_contact': vetContactController.text.trim(),
+    'photos': photoUrl != null ? [photoUrl] : [],
     'size': size,
     'temperament': temperamentController.text.trim(),
     'fears': fearsController.text.trim(),
@@ -264,6 +272,18 @@ class _DogCard extends StatelessWidget {
             TextFormField(controller: form.habitsController, decoration: const InputDecoration(labelText: 'Daily routine / habits'), maxLines: 2),
             TextFormField(controller: form.healthController, decoration: const InputDecoration(labelText: 'Health notes (optional)'), maxLines: 2),
             TextFormField(controller: form.allergiesController, decoration: const InputDecoration(labelText: 'Allergies / food sensitivities'), maxLines: 2),
+            TextFormField(controller: form.microchipController, decoration: const InputDecoration(labelText: 'Microchip number')),
+            TextFormField(controller: form.vetNameController, decoration: const InputDecoration(labelText: 'Veterinarian name')),
+            TextFormField(controller: form.vetContactController, decoration: const InputDecoration(labelText: 'Vet phone / email')),
+            const SizedBox(height: 8),
+            OutlinedButton.icon(
+              onPressed: () {
+                // Placeholder: in production this opens image picker / Supabase Storage upload
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Photo upload coming soon — will save to your dog profile')));
+              },
+              icon: const Icon(Icons.photo_camera),
+              label: const Text('Upload dog photo'),
+            ),
             TextFormField(controller: form.notesController, decoration: const InputDecoration(labelText: 'Anything else we should know'), maxLines: 2),
           ],
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state.dart';
+import 'app_shell.dart';
 import 'dog_profile_screen.dart';
 import 'training_screen.dart';
 import 'weekly_eval_screen.dart';
@@ -43,7 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final state = context.watch<AppState>();
     final dog = state.currentDog;
 
-    return Scaffold(
+    return AppShell(
+      title: 'Service Dog Trainer Pro',
       body: Stack(
         children: [
           Positioned.fill(

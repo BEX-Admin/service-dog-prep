@@ -27,6 +27,9 @@ class Dog {
   final String state;
   final String zip;
   final String billingAddress;
+  final String microchip;
+  final String vetName;
+  final String vetContact;
 
   Dog({
     required this.id,
@@ -57,6 +60,9 @@ class Dog {
     this.state = '',
     this.zip = '',
     this.billingAddress = '',
+    this.microchip = '',
+    this.vetName = '',
+    this.vetContact = '',
   });
 
   factory Dog.fromMap(Map<String, dynamic> map) {
@@ -88,6 +94,9 @@ class Dog {
       state: map['state'] ?? '',
       zip: map['zip'] ?? '',
       billingAddress: map['billing_address'] ?? '',
+      microchip: map['microchip'] ?? '',
+      vetName: map['vet_name'] ?? '',
+      vetContact: map['vet_contact'] ?? '',
     );
   }
 
@@ -119,5 +128,8 @@ class Dog {
         'state': state,
         'zip': zip,
         'billing_address': billingAddress,
+        'microchip': microchip,
+        'vet_name': vetName,
+        'vet_contact': vetContact,
       };
 }
