@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state.dart';
 import 'auth_screen.dart';
+import 'public_pages.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
@@ -88,21 +89,21 @@ class _LandingScreenState extends State<LandingScreen> {
                 const Spacer(),
                 if (isWide) ...[
                   _navButton('Home', () {}),
-                  _navButton('About', () => _showSection('About Us',
-                      'We created this because dogs are family. A well-trained dog is a happier, more confident dog that can safely join every part of your life — from the backyard to public spaces. We focus on positive, relationship-based training that builds trust and joy.')),
-                  _navButton('Training', () => _showSection('Types of Training',
-                      '• Happy Pet – everyday manners and family life\n• Good Citizen – AKC CGC and community skills\n• Service Dog – public access and task work\n• Socialization – calm, confident dogs in the real world\n• Professional Edition – tools for trainers')),
-                  _navButton('Professional', () => _showSection('Professional Edition',
-                      'Consistent training across teams, documented progress, clear opportunities for improvement, and easy owner communication with reports and suggestions. One program fee covers the first dog — then scale as you grow.')),
-                  _navButton('Resources', () => _showSection('Resources',
-                      'Recommended products, find a trainer, blog, FAQ, and suggestions. We partner with quality brands that support happy, well-trained dogs.')),
-                  _navButton('Contact', () => _showSection('Contact',
-                      'Email: hello@servicedogtrainerpro.com\nWe’d love to hear from you — whether you’re a pet parent or a professional trainer.')),
+                  _navButton('About', () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutPage()))),
+                  _navButton('Training', () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TrainingTypesPage()))),
+                  _navButton('Professional', () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfessionalPage()))),
+                  _navButton('Resources', () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ResourcesPage()))),
+                  _navButton('Contact', () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ContactPage()))),
                 ] else
                   PopupMenuButton<String>(
                     icon: const Icon(Icons.menu, color: Colors.white),
                     onSelected: (v) {
                       if (v == 'Login') _goToAuth();
+                      if (v == 'About') Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutPage()));
+                      if (v == 'Training') Navigator.push(context, MaterialPageRoute(builder: (_) => const TrainingTypesPage()));
+                      if (v == 'Professional') Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfessionalPage()));
+                      if (v == 'Resources') Navigator.push(context, MaterialPageRoute(builder: (_) => const ResourcesPage()));
+                      if (v == 'Contact') Navigator.push(context, MaterialPageRoute(builder: (_) => const ContactPage()));
                     },
                     itemBuilder: (_) => const [
                       PopupMenuItem(value: 'About', child: Text('About')),
@@ -219,45 +220,51 @@ class _LandingScreenState extends State<LandingScreen> {
                                   children: [
                                     Expanded(
                                       flex: 6,
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Image.asset('assets/logo.png', height: 280),
-                                          const SizedBox(height: 16),
-                                          const Text(
-                                            'We Love Dogs.',
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 48,
-                                              fontWeight: FontWeight.bold,
-                                              shadows: [Shadow(blurRadius: 8, color: Colors.black54)],
-                                            ),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: ConstrainedBox(
+                                          constraints: const BoxConstraints(maxWidth: 420),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Image.asset('assets/logo.png', height: 280),
+                                              const SizedBox(height: 16),
+                                              const Text(
+                                                'We Love Dogs.',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 48,
+                                                  fontWeight: FontWeight.bold,
+                                                  shadows: [Shadow(blurRadius: 8, color: Colors.black54)],
+                                                ),
+                                              ),
+                                              const SizedBox(height: 8),
+                                              const Text(
+                                                'A well-trained dog is\na Happy Dog!',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Color(0xFFD4AF37),
+                                                  fontSize: 28,
+                                                  fontWeight: FontWeight.w600,
+                                                  shadows: [Shadow(blurRadius: 6, color: Colors.black54)],
+                                                ),
+                                              ),
+                                              const SizedBox(height: 24),
+                                              ElevatedButton(
+                                                onPressed: _goToAuth,
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: const Color(0xFFD4AF37),
+                                                  foregroundColor: const Color(0xFF1A2A4A),
+                                                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                                                  textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                                ),
+                                                child: const Text('Get Started — Log In'),
+                                              ),
+                                            ],
                                           ),
-                                          const SizedBox(height: 8),
-                                          const Text(
-                                            'A well-trained dog is a happy dog.',
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color: Color(0xFFD4AF37),
-                                              fontSize: 28,
-                                              fontWeight: FontWeight.w600,
-                                              shadows: [Shadow(blurRadius: 6, color: Colors.black54)],
-                                            ),
-                                          ),
-                                          const SizedBox(height: 24),
-                                          ElevatedButton(
-                                            onPressed: _goToAuth,
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: const Color(0xFFD4AF37),
-                                              foregroundColor: const Color(0xFF1A2A4A),
-                                              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                                              textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                            ),
-                                            child: const Text('Get Started — Log In'),
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(width: 24),
