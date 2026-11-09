@@ -52,11 +52,7 @@ class HomeScreen extends StatelessWidget {
                 Center(
                   child: Column(
                     children: [
-                      Image.network(
-                        'https://nacbocdblmvpbvtinuzj.supabase.co/storage/v1/object/public/dog-photos/logo.png',
-                        height: 160,
-                        errorBuilder: (_, __, ___) => const Icon(Icons.pets, size: 80, color: Colors.white70),
-                      ),
+                      Image.asset('assets/logo.png', height: 140),
                       const SizedBox(height: 8),
                       const Text(
                         'Service Dog Trainer Pro',
@@ -96,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     child: ListTile(
                       leading: const CircleAvatar(
-                        backgroundColor: Color(0xFF2E7D6F),
+                        backgroundColor: Color(0xFF1A2A4A),
                         child: Icon(Icons.pets, color: Colors.white),
                       ),
                       title: Text(dog.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
@@ -180,7 +176,7 @@ class HomeScreen extends StatelessWidget {
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
-          foregroundColor: const Color(0xFF1A3A34),
+          foregroundColor: const Color(0xFF1A2A4A),
           minimumSize: const Size.fromHeight(50),
           alignment: Alignment.centerLeft,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

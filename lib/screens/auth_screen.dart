@@ -76,8 +76,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  const Color(0xFF1A3A34).withOpacity(0.85),
-                  const Color(0xFF2E7D6F).withOpacity(0.75),
+                  const Color(0xFF1A2A4A).withOpacity(0.85),
+                  const Color(0xFF1A2A4A).withOpacity(0.75),
                   const Color(0xFFFFF8F0).withOpacity(0.9),
                 ],
               ),
@@ -98,18 +98,14 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Image.network(
-                            'https://nacbocdblmvpbvtinuzj.supabase.co/storage/v1/object/public/dog-photos/logo.png',
-                            height: 100,
-                            errorBuilder: (_, __, ___) => const Icon(Icons.pets, size: 80, color: Color(0xFF2E7D6F)),
-                          ),
+                          Image.asset('assets/logo.png', height: 110),
                           const SizedBox(height: 16),
                           const Text(
                             'Service Dog Trainer Pro',
                             style: TextStyle(
                               fontSize: 26,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF1A3A34),
+                              color: Color(0xFF1A2A4A),
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -166,7 +162,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             title: const Text('Professional Trainer Account'),
                             value: _isProfessional,
                             onChanged: (v) => setState(() => _isProfessional = v),
-                            activeColor: const Color(0xFF2E7D6F),
+                            activeColor: const Color(0xFF1A2A4A),
                           ),
                           const SizedBox(height: 16),
                           SizedBox(
@@ -176,7 +172,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 : ElevatedButton(
                                     onPressed: _submit,
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFF2E7D6F),
+                                      backgroundColor: const Color(0xFF1A2A4A),
                                       foregroundColor: Colors.white,
                                       padding: const EdgeInsets.symmetric(vertical: 16),
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -188,7 +184,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             onPressed: () => setState(() => _isSignUp = !_isSignUp),
                             child: Text(
                               _isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up',
-                              style: const TextStyle(color: Color(0xFF2E7D6F)),
+                              style: const TextStyle(color: Color(0xFF1A2A4A)),
                             ),
                           ),
                           TextButton(
