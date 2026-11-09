@@ -16,30 +16,22 @@ class AppState extends ChangeNotifier {
   void login({required bool professional}) {
     isLoggedIn = true;
     isProfessional = professional;
-    dogs = [
-      Dog(
-        id: 'demo-1',
-        name: 'Demo Dog',
-        breed: 'Labrador Retriever',
-        age: 2,
-        size: 'Large',
-        temperament: 'Calm, eager to please',
-        fears: 'Loud noises',
-        goals: ['CGC', 'Public Access'],
-        familyName: 'Demo Family',
-        contact: 'demo@example.com',
-        habits: 'Enjoys walks, settles well at home',
-        healthNotes: 'Healthy, up to date on vaccines',
-        preferredTrainingTimes: 'Morning and evening',
-        numberOfTrainers: 2,
-      ),
-    ];
-    currentDogId = 'demo-1';
+    dogs = [];
+    currentDogId = null;
     for (var skill in SkillLibrary.allSkills) {
-      skillMastery[skill.id] = 0.3;
+      skillMastery[skill.id] = 0.0;
     }
     notifyListeners();
     _loadRemoteDogs();
+  }
+
+  void removeDog(String id) {
+    dogs.removeWhere((d) => d.id == id);
+    if (currentDogId == id) {
+      currentDogId = dogs.isNotEmpty ? dogs.first.id : null;
+    }
+    notifyListeners();
+    // TODO: also delete from Supabase when user is signed in
   }
 
   Future<void> _loadRemoteDogs() async {

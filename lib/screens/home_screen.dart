@@ -62,9 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xCC1A3A34),
-                  Color(0xCC2E7D6F),
-                  Color(0xCC1A3A34),
+                  Color(0xCC1A2A4A),
+                  Color(0xCC243656),
+                  Color(0xCC1A2A4A),
                 ],
               ),
             ),
@@ -99,13 +99,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.orange.shade50.withOpacity(0.95),
+                    color: const Color(0xFFFFF9F0),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.orange.shade300),
+                    border: Border.all(color: const Color(0xFFD4AF37)),
                   ),
                   child: const Text(
                     'This app helps you train your dog for public access, good citizenship, and a happier life together as a family.\n\nIt is never for protection, guard, personal defense, or attack training. Those skills are incompatible with the public access and community standards we focus on.',
-                    style: TextStyle(fontWeight: FontWeight.w600, color: Color(0xFFB45309)),
+                    style: TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF1A2A4A)),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -136,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     child: ListTile(
                       leading: const CircleAvatar(
-                        backgroundColor: Color(0xFFE8A87C),
+                        backgroundColor: Color(0xFFD4AF37),
                         child: Icon(Icons.add, color: Colors.white),
                       ),
                       title: Text(state.isProfessional ? 'Professional Intake' : 'Add / Manage Your Dogs', style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -148,6 +148,33 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
+                ],
+                const SizedBox(height: 12),
+                if (state.dogs.isNotEmpty) ...[
+                  const Text('Your Dogs', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+                  ...state.dogs.map((d) => Card(
+                    color: Colors.white,
+                    margin: const EdgeInsets.only(bottom: 8),
+                    child: ListTile(
+                      leading: const Icon(Icons.pets, color: Color(0xFF1A2A4A)),
+                      title: Text(d.name),
+                      subtitle: Text('${d.breed} • ${d.trainingPath}'),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete_outline, color: Colors.red),
+                        onPressed: () {
+                          context.read<AppState>().removeDog(d.id);
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${d.name} removed')));
+                        },
+                      ),
+                      onTap: () {
+                        context.read<AppState>().currentDogId = d.id;
+                        context.read<AppState>().notifyListeners();
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const DogProfileScreen()));
+                      },
+                    ),
+                  )),
+                  const SizedBox(height: 8),
                 ],
                 const SizedBox(height: 16),
                 _navButton(context, 'Start / Log Training Session', Icons.play_arrow, const TrainingScreen()),
