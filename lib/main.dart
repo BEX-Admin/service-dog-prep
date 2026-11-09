@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'providers/app_state.dart';
 import 'screens/home_screen.dart';
 import 'screens/landing_screen.dart';
+import 'screens/portal_screen.dart';
 import 'supabase/supabase_config.dart';
 
 void main() async {
@@ -45,7 +46,7 @@ class ServiceDogPrepApp extends StatelessWidget {
       ),
       home: Consumer<AppState>(
         builder: (context, state, _) {
-          return state.isLoggedIn ? const HomeScreen() : const LandingScreen();
+          return state.isLoggedIn ? const PortalScreen() : const LandingScreen();
         },
       ),
     );

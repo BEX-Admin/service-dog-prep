@@ -113,7 +113,7 @@ class _PersonalIntakeScreenState extends State<PersonalIntakeScreen> {
               }
             },
           ),
-          TextFormField(controller: _address, decoration: const InputDecoration(labelText: 'Billing street address')),
+          TextFormField(controller: _address, decoration: const InputDecoration(labelText: 'Address')),
           Row(
             children: [
               Expanded(flex: 3, child: TextFormField(controller: _city, decoration: const InputDecoration(labelText: 'City'))),
@@ -175,6 +175,7 @@ class _DogForm {
   final fearsController = TextEditingController();
   final goalsController = TextEditingController();
   final habitsController = TextEditingController();
+  final badHabitsController = TextEditingController();
   final healthController = TextEditingController();
   final notesController = TextEditingController();
   String size = 'Medium';
@@ -202,6 +203,7 @@ class _DogForm {
     'fears': fearsController.text.trim(),
     'goals': goalsController.text.split(',').map((s) => s.trim()).where((s) => s.isNotEmpty).toList(),
     'habits': habitsController.text.trim(),
+    'bad_habits': badHabitsController.text.trim(),
     'health_notes': healthController.text.trim(),
     'notes': notesController.text.trim(),
     'preferred_training_times': 'Flexible',
@@ -270,6 +272,7 @@ class _DogCard extends StatelessWidget {
             TextFormField(controller: form.fearsController, decoration: const InputDecoration(labelText: 'Fears, triggers, or things to avoid'), maxLines: 2),
             TextFormField(controller: form.goalsController, decoration: const InputDecoration(labelText: 'Goals (comma separated)', hintText: 'Better walks, CGC, public access...')),
             TextFormField(controller: form.habitsController, decoration: const InputDecoration(labelText: 'Daily routine / habits'), maxLines: 2),
+            TextFormField(controller: form.badHabitsController, decoration: const InputDecoration(labelText: 'Bad habits (chewing, destructive when alone, howling, etc.)'), maxLines: 2),
             TextFormField(controller: form.healthController, decoration: const InputDecoration(labelText: 'Health notes (optional)'), maxLines: 2),
             TextFormField(controller: form.allergiesController, decoration: const InputDecoration(labelText: 'Allergies / food sensitivities'), maxLines: 2),
             TextFormField(controller: form.microchipController, decoration: const InputDecoration(labelText: 'Microchip number')),

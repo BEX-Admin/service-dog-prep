@@ -22,23 +22,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _prompted = false;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_prompted) return;
-    final state = context.read<AppState>();
-    if (!state.isProfessional && state.dogs.isEmpty) {
-      _prompted = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => const PersonalIntakeScreen()));
-        }
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
