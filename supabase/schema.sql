@@ -51,3 +51,18 @@ alter table public.dogs add column if not exists owner_phone text;
 alter table public.dogs add column if not exists address text;
 alter table public.dogs add column if not exists training_path text;
 alter table public.dogs add column if not exists notes text;
+
+-- Columns added for full intake (run these if your table already exists)
+alter table public.dogs add column if not exists akc_name text;
+alter table public.dogs add column if not exists akc_number text;
+alter table public.dogs add column if not exists birthdate text;
+alter table public.dogs add column if not exists allergies text;
+alter table public.dogs add column if not exists city text;
+alter table public.dogs add column if not exists state text;
+alter table public.dogs add column if not exists zip text;
+alter table public.dogs add column if not exists billing_address text;
+alter table public.dogs add column if not exists microchip text;
+alter table public.dogs add column if not exists vet_name text;
+alter table public.dogs add column if not exists vet_contact text;
+alter table public.dogs add column if not exists bad_habits text;
+alter table public.dogs add column if not exists photos text[];

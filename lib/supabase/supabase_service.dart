@@ -21,7 +21,16 @@ class SupabaseService {
   }
 
   Future<void> insertDog(Map<String, dynamic> dog) async {
-    await client.from('dogs').insert(dog);
+    const allowed = {
+      'user_id', 'name', 'breed', 'age', 'size', 'temperament', 'fears', 'goals',
+      'family_name', 'contact', 'owner_email', 'owner_phone', 'address',
+      'habits', 'health_notes', 'preferred_training_times', 'number_of_trainers',
+      'training_path', 'notes', 'akc_name', 'akc_number', 'birthdate', 'allergies',
+      'city', 'state', 'zip', 'billing_address', 'microchip', 'vet_name',
+      'vet_contact', 'bad_habits', 'photos',
+    };
+    final clean = {k: v for k, v in dog.entries if k in allowed && v != null};
+    await client.from('dogs').insert(clean);
   }
 
   Future<void> insertSession(Map<String, dynamic> session) async {

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 
 String formatUsPhone(String raw) {
   final digits = raw.replaceAll(RegExp(r'\D'), '');
@@ -64,7 +65,9 @@ class _PersonalIntakeScreenState extends State<PersonalIntakeScreen> {
         dogData['user_id'] = user.id;
         try {
           await state.supabaseService.insertDog(dogData);
-        } catch (_) {}
+        } catch (e) {
+          if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Saved on this device. Cloud save failed: \$e')));
+        }
       }
       final dog = Dog(
         id: DateTime.now().millisecondsSinceEpoch.toString() + form.nameController.text,

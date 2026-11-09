@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state.dart';
+import 'legal_pages.dart';
 import 'home_screen.dart';
 import 'personal_intake_screen.dart';
 import 'professional_intake_screen.dart';
@@ -60,11 +61,27 @@ class AppShell extends StatelessWidget {
                 Container(
                   width: double.infinity,
                   color: const Color(0xFF0F1C30),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: const Text(
-                    '© 2026 Service Dog Trainer Pro. A well-trained dog is a happy dog.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  child: Column(
+                    children: [
+                      Wrap(
+                        spacing: 16,
+                        runSpacing: 4,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PrivacyPolicyPage())), child: const Text('Privacy', style: TextStyle(color: Color(0xFFD4AF37)))),
+                          TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TermsPage())), child: const Text('Terms', style: TextStyle(color: Color(0xFFD4AF37)))),
+                          TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ContactFormPage())), child: const Text('Contact', style: TextStyle(color: Color(0xFFD4AF37)))),
+                          TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const DisclaimerPage())), child: const Text('Disclaimer', style: TextStyle(color: Color(0xFFD4AF37)))),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      const Text(
+                        '© 2026 Service Dog Trainer Pro. A well-trained dog is a happy dog.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white70, fontSize: 12),
+                      ),
+                    ],
                   ),
                 ),
               ],

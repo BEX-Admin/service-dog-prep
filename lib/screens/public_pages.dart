@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'auth_screen.dart';
+import 'legal_pages.dart';
 
 class PublicPageScaffold extends StatelessWidget {
   final String title;
@@ -116,6 +117,7 @@ class PublicPageScaffold extends StatelessWidget {
                             _footerLink(context, 'Help / FAQ'),
                             _footerLink(context, 'Blog'),
                             _footerLink(context, 'Suggestions'),
+                            _footerLink(context, 'Disclaimer'),
                           ],
                         ),
                         const SizedBox(height: 16),
@@ -143,7 +145,17 @@ class PublicPageScaffold extends StatelessWidget {
 
   Widget _footerLink(BuildContext context, String label) {
     return TextButton(
-      onPressed: () => _showSimple(context, label),
+      onPressed: () {
+        Widget page;
+        switch (label) {
+          case 'Privacy Policy': page = const PrivacyPolicyPage(); break;
+          case 'Terms': page = const TermsPage(); break;
+          case 'Contact': page = const ContactFormPage(); break;
+          case 'Disclaimer': page = const DisclaimerPage(); break;
+          default: page = const ContactFormPage();
+        }
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
+      },
       child: Text(label, style: const TextStyle(color: Color(0xFFD4AF37))),
     );
   }
