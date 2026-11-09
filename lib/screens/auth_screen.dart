@@ -57,59 +57,153 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Service Dog Trainer Pro',
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+      body: Stack(
+        children: [
+          // Soft background
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.12,
+              child: Image.network(
+                'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=1200',
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => const SizedBox(),
+              ),
             ),
-            const SizedBox(height: 16),
-            const Text(
-              'Help your dog become a happier, more confident, and better-behaved family member by training to the same standards used for well-trained service dogs.\n\nThis app is never for protection, guard, or attack training.',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Color(0xFFB45309), fontWeight: FontWeight.w600),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  const Color(0xFF1A3A34).withOpacity(0.85),
+                  const Color(0xFF2E7D6F).withOpacity(0.75),
+                  const Color(0xFFFFF8F0).withOpacity(0.9),
+                ],
+              ),
             ),
-            const SizedBox(height: 32),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            if (_error != null) ...[
-              const SizedBox(height: 8),
-              Text(_error!, style: const TextStyle(color: Colors.red, fontSize: 12)),
-            ],
-            SwitchListTile(
-              title: const Text('Professional Trainer Account'),
-              value: _isProfessional,
-              onChanged: (v) => setState(() => _isProfessional = v),
-            ),
-            const SizedBox(height: 8),
-            _isLoading
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: _submit,
-                    child: Text(_isSignUp ? 'Sign Up' : 'Sign In'),
+          ),
+          SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24.0),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 420),
+                  child: Card(
+                    elevation: 8,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    color: Colors.white.withOpacity(0.95),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 36),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.network(
+                            'https://nacbocdblmvpbvtinuzj.supabase.co/storage/v1/object/public/dog-photos/logo.png',
+                            height: 100,
+                            errorBuilder: (_, __, ___) => const Icon(Icons.pets, size: 80, color: Color(0xFF2E7D6F)),
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Service Dog Trainer Pro',
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1A3A34),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 12),
+                          const Text(
+                            'Help your dog become a happier, more confident, and better-behaved family member by training to the same standards used for well-trained service dogs.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 15, height: 1.4),
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFF3E0),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Text(
+                              'This app is never for protection, guard, or attack training.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color(0xFFB45309),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 28),
+                          TextField(
+                            controller: _emailController,
+                            decoration: const InputDecoration(
+                              labelText: 'Email',
+                              border: OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.email_outlined),
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                          const SizedBox(height: 16),
+                          TextField(
+                            controller: _passwordController,
+                            decoration: const InputDecoration(
+                              labelText: 'Password',
+                              border: OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.lock_outline),
+                            ),
+                            obscureText: true,
+                          ),
+                          if (_error != null) ...[
+                            const SizedBox(height: 12),
+                            Text(_error!, style: const TextStyle(color: Colors.red, fontSize: 13)),
+                          ],
+                          const SizedBox(height: 8),
+                          SwitchListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: const Text('Professional Trainer Account'),
+                            value: _isProfessional,
+                            onChanged: (v) => setState(() => _isProfessional = v),
+                            activeColor: const Color(0xFF2E7D6F),
+                          ),
+                          const SizedBox(height: 16),
+                          SizedBox(
+                            width: double.infinity,
+                            child: _isLoading
+                                ? const Center(child: CircularProgressIndicator())
+                                : ElevatedButton(
+                                    onPressed: _submit,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF2E7D6F),
+                                      foregroundColor: Colors.white,
+                                      padding: const EdgeInsets.symmetric(vertical: 16),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                    ),
+                                    child: Text(_isSignUp ? 'Sign Up' : 'Sign In', style: const TextStyle(fontSize: 16)),
+                                  ),
+                          ),
+                          TextButton(
+                            onPressed: () => setState(() => _isSignUp = !_isSignUp),
+                            child: Text(
+                              _isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up',
+                              style: const TextStyle(color: Color(0xFF2E7D6F)),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: _demoLogin,
+                            child: const Text('Continue in Demo Mode', style: TextStyle(color: Color(0xFFB45309))),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-            TextButton(
-              onPressed: () => setState(() => _isSignUp = !_isSignUp),
-              child: Text(_isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up'),
+                ),
+              ),
             ),
-            const SizedBox(height: 8),
-            TextButton(
-              onPressed: _demoLogin,
-              child: const Text('Continue in Demo Mode'),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
