@@ -80,7 +80,7 @@ class _LandingScreenState extends State<LandingScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
               children: [
-                Image.asset('assets/logo.png', height: 64, fit: BoxFit.contain),
+                Image.asset('assets/branding/boykin-badge.png', height: 64, fit: BoxFit.contain),
                 const SizedBox(width: 12),
                 const Text(
                   'Service Dog Trainer Pro',
