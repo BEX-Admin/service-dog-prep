@@ -10,6 +10,8 @@ import 'evaluation_screen.dart';
 import 'regression_screen.dart';
 import 'schedule_screen.dart';
 import 'create_dog_screen.dart';
+import 'personal_intake_screen.dart';
+import 'professional_intake_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -115,12 +117,12 @@ class HomeScreen extends StatelessWidget {
                         backgroundColor: Color(0xFFE8A87C),
                         child: Icon(Icons.add, color: Colors.white),
                       ),
-                      title: const Text('Add Your Dog', style: TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: const Text('Create a profile with goals, temperament, and training focus'),
+                      title: Text(state.isProfessional ? 'Professional Intake' : 'Add / Manage Your Dogs', style: const TextStyle(fontWeight: FontWeight.bold)),
+                      subtitle: Text(state.isProfessional ? 'Trainer contact, unlimited dogs, owner reports' : 'One page for up to 3 family dogs'),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => const CreateDogScreen()),
+                        MaterialPageRoute(builder: (_) => state.isProfessional ? const ProfessionalIntakeScreen() : const PersonalIntakeScreen()),
                       ),
                     ),
                   ),

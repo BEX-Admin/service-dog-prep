@@ -10,10 +10,15 @@ class Dog {
   final List<String> photos;
   final String familyName;
   final String contact;
+  final String ownerEmail;
+  final String ownerPhone;
+  final String address;
   final String habits;
   final String healthNotes;
   final String preferredTrainingTimes;
   final int numberOfTrainers;
+  final String trainingPath; // e.g. ADI Public Access, AKC CGC, NAVHDA, etc.
+  final String notes;
 
   Dog({
     required this.id,
@@ -27,10 +32,15 @@ class Dog {
     this.photos = const [],
     this.familyName = '',
     this.contact = '',
+    this.ownerEmail = '',
+    this.ownerPhone = '',
+    this.address = '',
     this.habits = '',
     this.healthNotes = '',
-    this.preferredTrainingTimes = 'Evenings',
+    this.preferredTrainingTimes = 'Flexible',
     this.numberOfTrainers = 1,
+    this.trainingPath = 'Happy Pet / Family Manners',
+    this.notes = '',
   });
 
   factory Dog.fromMap(Map<String, dynamic> map) {
@@ -45,10 +55,15 @@ class Dog {
       goals: List<String>.from(map['goals'] ?? []),
       familyName: map['family_name'] ?? '',
       contact: map['contact'] ?? '',
+      ownerEmail: map['owner_email'] ?? '',
+      ownerPhone: map['owner_phone'] ?? '',
+      address: map['address'] ?? '',
       habits: map['habits'] ?? '',
       healthNotes: map['health_notes'] ?? '',
       preferredTrainingTimes: map['preferred_training_times'] ?? '',
       numberOfTrainers: map['number_of_trainers'] ?? 1,
+      trainingPath: map['training_path'] ?? 'Happy Pet / Family Manners',
+      notes: map['notes'] ?? '',
     );
   }
 
@@ -63,9 +78,14 @@ class Dog {
         'goals': goals,
         'family_name': familyName,
         'contact': contact,
+        'owner_email': ownerEmail,
+        'owner_phone': ownerPhone,
+        'address': address,
         'habits': habits,
         'health_notes': healthNotes,
         'preferred_training_times': preferredTrainingTimes,
         'number_of_trainers': numberOfTrainers,
+        'training_path': trainingPath,
+        'notes': notes,
       };
 }

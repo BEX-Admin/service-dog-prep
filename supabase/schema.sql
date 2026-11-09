@@ -44,3 +44,10 @@ create policy "Users can manage own sessions"
   on public.sessions for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
+
+-- Additional columns for richer intake (run if tables already exist)
+alter table public.dogs add column if not exists owner_email text;
+alter table public.dogs add column if not exists owner_phone text;
+alter table public.dogs add column if not exists address text;
+alter table public.dogs add column if not exists training_path text;
+alter table public.dogs add column if not exists notes text;
