@@ -8,6 +8,8 @@ import 'training_screen.dart';
 import 'schedule_screen.dart';
 import 'weekly_eval_screen.dart';
 import 'skill_library_screen.dart';
+import 'settings_screen.dart';
+import 'feedback_screen.dart';
 import 'dog_profile_screen.dart';
 
 class AppShell extends StatelessWidget {
@@ -91,6 +93,8 @@ class _NavList extends StatelessWidget {
       _NavItem('Schedule', Icons.calendar_today, const ScheduleScreen()),
       _NavItem('Reports / Weekly Eval', Icons.assessment, const WeeklyEvalScreen()),
       _NavItem('Skill Library', Icons.library_books, const SkillLibraryScreen()),
+      _NavItem('Settings & Profile', Icons.settings, const SettingsScreen()),
+      _NavItem('Testimonials & Suggestions', Icons.rate_review, const FeedbackScreen()),
     ];
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 12),
