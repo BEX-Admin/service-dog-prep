@@ -65,6 +65,13 @@ class PortalScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(color: const Color(0xFF1A2A4A), borderRadius: BorderRadius.circular(8)),
+                  child: const Text('You are in your Customer Portal', style: TextStyle(color: Color(0xFFD4AF37), fontSize: 18, fontWeight: FontWeight.bold)),
+                ),
+                const SizedBox(height: 16),
                 const Text(
                   'A well-trained dog is a happy dog.',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF1A2A4A)),
