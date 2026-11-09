@@ -132,9 +132,61 @@ class _LandingScreenState extends State<LandingScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // Hero carousel
+                  // Hero
+                  if (!isWide) ...[
+                    // Mobile: logo block above carousel
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(24),
+                      color: const Color(0xFF1A2A4A),
+                      child: Column(
+                        children: [
+                          Image.asset('assets/logo.png', height: 160),
+                          const SizedBox(height: 12),
+                          const Text('We Love Dogs.', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 6),
+                          const Text('A well-trained dog is a happy dog.', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFFD4AF37), fontSize: 18, fontWeight: FontWeight.w600)),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: _goToAuth,
+                            style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFD4AF37), foregroundColor: const Color(0xFF1A2A4A)),
+                            child: const Text('Get Started — Log In'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Carousel
+                    SizedBox(
+                      height: 220,
+                      child: PageView.builder(
+                        controller: _pageController,
+                        onPageChanged: (i) => setState(() => _currentPage = i),
+                        itemCount: _heroImages.length,
+                        itemBuilder: (_, i) => Image.network(_heroImages[i], fit: BoxFit.cover, width: double.infinity, errorBuilder: (_, __, ___) => Container(color: const Color(0xFF1A2A4A))),
+                      ),
+                    ),
+                    // Testimonials below
+                    Container(
+                      height: 280,
+                      margin: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(color: Colors.black.withOpacity(0.7), borderRadius: BorderRadius.circular(12)),
+                      child: ListView(
+                        padding: const EdgeInsets.all(12),
+                        children: [
+                          const Text('What families & trainers say', style: TextStyle(color: Color(0xFFD4AF37), fontSize: 18, fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 8),
+                          _testimonial('“My dog is calmer and happier than ever. We can actually enjoy walks together.”', 'Sarah & Max'),
+                          _testimonial('“The Professional Edition finally gave me one place to track every dog and share progress with owners.”', 'James, CPDT'),
+                          _testimonial('“Training no longer feels like a chore. It’s something we look forward to.”', 'The Chen Family'),
+                          _testimonial('“We finally feel confident taking our dog everywhere — stores, restaurants, travel.”', 'The Patel Family'),
+                          _testimonial('“Clear reports and suggestions make it easy to keep owners engaged between sessions.”', 'Maria, Trainer'),
+                        ],
+                      ),
+                    ),
+                  ] else ...[
+                  // Desktop hero overlay
                   SizedBox(
-                    height: isWide ? 520 : 380,
+                    height: 520,
                     child: Stack(
                       children: [
                         PageView.builder(
@@ -169,13 +221,13 @@ class _LandingScreenState extends State<LandingScreen> {
                                       flex: 6,
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Image.asset('assets/logo.png', height: 280),
                                           const SizedBox(height: 16),
                                           const Text(
                                             'We Love Dogs.',
-                                            textAlign: TextAlign.center,
+                                            textAlign: TextAlign.left,
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 48,
@@ -186,7 +238,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                           const SizedBox(height: 8),
                                           const Text(
                                             'A well-trained dog is a happy dog.',
-                                            textAlign: TextAlign.center,
+                                            textAlign: TextAlign.left,
                                             style: TextStyle(
                                               color: Color(0xFFD4AF37),
                                               fontSize: 28,
@@ -278,6 +330,7 @@ class _LandingScreenState extends State<LandingScreen> {
                       ],
                     ),
                   ),
+                  ],
 
                   // Marketing section
                   Padding(
@@ -304,30 +357,6 @@ class _LandingScreenState extends State<LandingScreen> {
                             _featureCard(Icons.favorite, 'Dogs Are Family', 'We treat training as building trust and joy, not control. Happy dogs thrive when they understand and feel safe.'),
                             _featureCard(Icons.verified, 'Proven Standards', 'Train to the same standards used for CGC, Urban CGC, and public access — so your dog can go anywhere with you.'),
                             _featureCard(Icons.groups, 'For Owners & Pros', 'Personal tools for families and a full Professional Edition for trainers who want consistency, documentation, and better client communication.'),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Testimonials placeholder
-                  Container(
-                    color: const Color(0xFF1A2A4A),
-                    padding: const EdgeInsets.all(40),
-                    child: Column(
-                      children: [
-                        const Text(
-                          'What Families & Trainers Are Saying',
-                          style: TextStyle(color: Color(0xFFD4AF37), fontSize: 28, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 24),
-                        Wrap(
-                          spacing: 20,
-                          runSpacing: 20,
-                          children: [
-                            _testimonial('“My dog is calmer and happier than ever. We can actually enjoy walks together.”', 'Sarah & Max'),
-                            _testimonial('“The Professional Edition finally gave me one place to track every dog and share progress with owners.”', 'James, CPDT'),
-                            _testimonial('“Training no longer feels like a chore. It’s something we look forward to.”', 'The Chen Family'),
                           ],
                         ),
                       ],
@@ -364,6 +393,7 @@ class _LandingScreenState extends State<LandingScreen> {
 
                   // Footer
                   Container(
+                    width: double.infinity,
                     color: const Color(0xFF0F1C30),
                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
                     child: Column(
