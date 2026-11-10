@@ -27,6 +27,8 @@ class _DogProfileScreenState extends State<DogProfileScreen> {
   late TextEditingController _vetName;
   late TextEditingController _vetContact;
   late TextEditingController _notes;
+  late TextEditingController _akcName;
+  late TextEditingController _akcNumber;
   String _trainingPath = 'Happy Pet / Family Manners';
   bool _editing = false;
 
@@ -42,12 +44,15 @@ class _DogProfileScreenState extends State<DogProfileScreen> {
     _fears = TextEditingController(text: dog.fears);
     _goals = TextEditingController(text: dog.goals.join(', '));
     _habits = TextEditingController(text: dog.habits);
-    _badHabits = TextEditingController(text: '');
+    _badHabits = TextEditingController(text: dog.badHabits);
     _health = TextEditingController(text: dog.healthNotes);
     _allergies = TextEditingController(text: dog.allergies);
     _microchip = TextEditingController(text: dog.microchip);
     _vetName = TextEditingController(text: dog.vetName);
     _vetContact = TextEditingController(text: dog.vetContact);
+    _notes = TextEditingController(text: dog.notes);
+    _akcName = TextEditingController(text: dog.akcName);
+    _akcNumber = TextEditingController(text: dog.akcNumber);
     _notes = TextEditingController(text: dog.notes);
     _trainingPath = dog.trainingPath;
   }
@@ -76,8 +81,8 @@ class _DogProfileScreenState extends State<DogProfileScreen> {
       numberOfTrainers: old.numberOfTrainers,
       trainingPath: _trainingPath,
       notes: _notes.text.trim(),
-      akcName: old.akcName,
-      akcNumber: old.akcNumber,
+      akcName: _akcName.text.trim(),
+      akcNumber: _akcNumber.text.trim(),
       birthdate: _birthdate.text.trim(),
       allergies: _allergies.text.trim(),
       city: old.city,
@@ -144,12 +149,16 @@ class _DogProfileScreenState extends State<DogProfileScreen> {
           ),
           if (!_editing) ...[
             _row('Breed', dog.breed),
+            _row('AKC name', dog.akcName),
+            _row('AKC number', dog.akcNumber),
             _row('Birthdate', dog.birthdate),
             _row('Age', '${dog.age} years'),
             _row('Training path', dog.trainingPath),
             _row('Temperament', dog.temperament),
             _row('Fears', dog.fears),
             _row('Goals', dog.goals.join(', ')),
+            _row('Habits', dog.habits),
+            _row('Bad habits', dog.badHabits),
             _row('Health', dog.healthNotes),
             _row('Allergies', dog.allergies),
             _row('Microchip', dog.microchip),
@@ -157,11 +166,14 @@ class _DogProfileScreenState extends State<DogProfileScreen> {
           ] else ...[
             TextFormField(controller: _name, decoration: const InputDecoration(labelText: 'Name')),
             TextFormField(controller: _breed, decoration: const InputDecoration(labelText: 'Breed')),
+            TextFormField(controller: _akcName, decoration: const InputDecoration(labelText: 'AKC registered name')),
+            TextFormField(controller: _akcNumber, decoration: const InputDecoration(labelText: 'AKC number')),
             TextFormField(controller: _birthdate, decoration: const InputDecoration(labelText: 'Birthdate (MM/DD/YYYY)')),
             TextFormField(controller: _temperament, decoration: const InputDecoration(labelText: 'Temperament'), maxLines: 2),
             TextFormField(controller: _fears, decoration: const InputDecoration(labelText: 'Fears'), maxLines: 2),
             TextFormField(controller: _goals, decoration: const InputDecoration(labelText: 'Goals (comma separated)')),
             TextFormField(controller: _habits, decoration: const InputDecoration(labelText: 'Habits'), maxLines: 2),
+            TextFormField(controller: _badHabits, decoration: const InputDecoration(labelText: 'Bad habits'), maxLines: 2),
             TextFormField(controller: _health, decoration: const InputDecoration(labelText: 'Health notes'), maxLines: 2),
             TextFormField(controller: _allergies, decoration: const InputDecoration(labelText: 'Allergies / food sensitivities'), maxLines: 2),
             TextFormField(controller: _microchip, decoration: const InputDecoration(labelText: 'Microchip number')),
