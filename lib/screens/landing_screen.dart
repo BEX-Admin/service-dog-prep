@@ -157,9 +157,9 @@ class _LandingScreenState extends State<LandingScreen> {
                         ],
                       ),
                     ),
-                    // Carousel
+                    // Carousel — taller on mobile so images are easy to see
                     SizedBox(
-                      height: 220,
+                      height: 320,
                       child: PageView.builder(
                         controller: _pageController,
                         onPageChanged: (i) => setState(() => _currentPage = i),
@@ -342,13 +342,13 @@ class _LandingScreenState extends State<LandingScreen> {
 
                   // Marketing section
                   Padding(
-                    padding: const EdgeInsets.all(40),
+                    padding: EdgeInsets.all(isWide ? 40 : 20),
                     child: Column(
                       children: [
-                        const Text(
+                        Text(
                           'Happy Dogs. Happy Families. Confident Community Members.',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xFF1A2A4A)),
+                          style: TextStyle(fontSize: isWide ? 32 : 26, fontWeight: FontWeight.bold, color: const Color(0xFF1A2A4A)),
                         ),
                         const SizedBox(height: 16),
                         const Text(
