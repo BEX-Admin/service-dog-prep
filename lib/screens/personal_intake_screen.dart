@@ -1,4 +1,9 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/app_state.dart';
+import '../models/dog.dart';
 
 String formatUsPhone(String raw) {
   final digits = raw.replaceAll(RegExp(r'\D'), '');
@@ -19,7 +24,6 @@ String formatBirthdate(String raw) {
 }
 
 
-import 'package:flutter/services.dart';
 
 class UsPhoneFormatter extends TextInputFormatter {
   @override
@@ -62,10 +66,6 @@ int ageFromBirthdate(String mmddyyyy) {
   return age < 0 ? 0 : age;
 }
 
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/app_state.dart';
-import '../models/dog.dart';
 
 class PersonalIntakeScreen extends StatefulWidget {
   const PersonalIntakeScreen({super.key});
