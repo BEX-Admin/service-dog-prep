@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state.dart';
 import '../models/dog.dart';
@@ -167,6 +168,50 @@ class _DogProfileScreenState extends State<DogProfileScreen> {
             TextFormField(controller: _vetName, decoration: const InputDecoration(labelText: 'Vet name')),
             TextFormField(controller: _vetContact, decoration: const InputDecoration(labelText: 'Vet phone / email')),
             TextFormField(controller: _notes, decoration: const InputDecoration(labelText: 'Notes'), maxLines: 2),
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              onPressed: () async {
+                final source = await showModalBottomSheet<ImageSource>(
+                  context: context,
+                  builder: (ctx) => SafeArea(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(leading: const Icon(Icons.photo_camera), title: const Text('Take photo'), onTap: () => Navigator.pop(ctx, ImageSource.camera)),
+                        ListTile(leading: const Icon(Icons.photo_library), title: const Text('Choose from gallery'), onTap: () => Navigator.pop(ctx, ImageSource.gallery)),
+                      ],
+                    ),
+                  ),
+                );
+                if (source == null) return;
+                final picker = ImagePicker();
+                final picked = await picker.pickImage(source: source, maxWidth: 1600, imageQuality: 80);
+                if (picked == null) return;
+                final bytes = await picked.readAsBytes();
+                final state = context.read<AppState>();
+                try {
+                  final url = await state.supabaseService.uploadDogPhoto(dog.id, picked.name, bytes);
+                  final updated = Dog(
+                    id: dog.id, name: dog.name, breed: dog.breed, age: dog.age, size: dog.size,
+                    temperament: dog.temperament, fears: dog.fears, goals: dog.goals,
+                    photos: [url], familyName: dog.familyName, contact: dog.contact,
+                    ownerEmail: dog.ownerEmail, ownerPhone: dog.ownerPhone, address: dog.address,
+                    habits: dog.habits, healthNotes: dog.healthNotes, trainingPath: dog.trainingPath,
+                    notes: dog.notes, birthdate: dog.birthdate, allergies: dog.allergies,
+                    microchip: dog.microchip, vetName: dog.vetName, vetContact: dog.vetContact,
+                    badHabits: dog.badHabits,
+                  );
+                  state.removeDog(dog.id);
+                  state.addDog(updated);
+                  await state.supabaseService.updateDog(dog.id, updated.toMap(state.supabaseService.currentUser?.id ?? ''));
+                  if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Photo uploaded')));
+                } catch (e) {
+                  if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Upload failed: $e')));
+                }
+              },
+              icon: const Icon(Icons.photo_camera),
+              label: const Text('Add / replace photo'),
+            ),
             const SizedBox(height: 12),
             ElevatedButton(
               onPressed: _save,
