@@ -1,3 +1,4 @@
+import 'layout_utils.dart';
 import 'package:flutter/material.dart';
 import 'auth_screen.dart';
 import 'legal_pages.dart';
@@ -22,7 +23,7 @@ class PublicPageScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isWide = MediaQuery.of(context).size.width > 1100;
+    final isWide = isWideLayout(context);
     return Scaffold(
       backgroundColor: const Color(0xFFFFF9F0),
       body: Column(

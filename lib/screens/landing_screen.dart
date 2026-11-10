@@ -1,3 +1,4 @@
+import 'layout_utils.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -68,7 +69,7 @@ class _LandingScreenState extends State<LandingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isWide = MediaQuery.of(context).size.width > 1100;
+    final isWide = isWideLayout(context);
 
     return Scaffold(
       backgroundColor: const Color(0xFFFFF9F0),
