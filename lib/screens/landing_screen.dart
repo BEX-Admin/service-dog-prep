@@ -16,8 +16,11 @@ class LandingScreen extends StatefulWidget {
 
 class _LandingScreenState extends State<LandingScreen> {
   final PageController _pageController = PageController();
+  final ScrollController _testimonialScroll = ScrollController();
+  final ScrollController _testimonialScrollDesktop = ScrollController();
   int _currentPage = 0;
   Timer? _timer;
+  Timer? _testimonialTimer;
 
   final List<String> _heroImages = [
     'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=1600',
@@ -40,12 +43,24 @@ class _LandingScreenState extends State<LandingScreen> {
         );
       }
     });
+    _testimonialTimer = Timer.periodic(const Duration(seconds: 3), (_) {
+      for (final c in [_testimonialScroll, _testimonialScrollDesktop]) {
+        if (!c.hasClients) continue;
+        final max = c.position.maxScrollExtent;
+        if (max <= 0) continue;
+        final next = c.offset + 80;
+        c.animateTo(next > max ? 0 : next, duration: const Duration(milliseconds: 600), curve: Curves.easeInOut);
+      }
+    });
   }
 
   @override
   void dispose() {
     _timer?.cancel();
+    _testimonialTimer?.cancel();
     _pageController.dispose();
+    _testimonialScroll.dispose();
+    _testimonialScrollDesktop.dispose();
     super.dispose();
   }
 
@@ -174,6 +189,7 @@ class _LandingScreenState extends State<LandingScreen> {
                       margin: const EdgeInsets.all(12),
                       decoration: BoxDecoration(color: Colors.black.withOpacity(0.7), borderRadius: BorderRadius.circular(12)),
                       child: ListView(
+                        controller: _testimonialScroll,
                         padding: const EdgeInsets.all(12),
                         children: [
                           const Text('What families & trainers say', style: TextStyle(color: Color(0xFFD4AF37), fontSize: 18, fontWeight: FontWeight.bold)),
@@ -278,6 +294,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                           borderRadius: BorderRadius.circular(16),
                                         ),
                                         child: ListView(
+                                          controller: _testimonialScrollDesktop,
                                           padding: const EdgeInsets.all(12),
                                           children: [
                                             const Text('What families & trainers say', style: TextStyle(color: Color(0xFFD4AF37), fontSize: 22, fontWeight: FontWeight.bold)),
