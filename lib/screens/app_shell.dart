@@ -21,7 +21,7 @@ class AppShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
-    final isWide = MediaQuery.of(context).size.width > 800;
+    final isWide = MediaQuery.of(context).size.width > 480;
 
     return Scaffold(
       backgroundColor: const Color(0xFFFFF9F0),
@@ -30,7 +30,7 @@ class AppShell extends StatelessWidget {
         foregroundColor: Colors.white,
         title: Row(
           children: [
-            Image.asset('assets/branding/boykin-badge.png', height: 36),
+            Image.asset('assets/logo.png', height: 36),
             const SizedBox(width: 10),
             Text(title, style: const TextStyle(fontSize: 18)),
           ],

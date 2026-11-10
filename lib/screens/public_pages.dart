@@ -22,7 +22,7 @@ class PublicPageScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isWide = MediaQuery.of(context).size.width > 800;
+    final isWide = MediaQuery.of(context).size.width > 480;
     return Scaffold(
       backgroundColor: const Color(0xFFFFF9F0),
       body: Column(
@@ -35,7 +35,7 @@ class PublicPageScaffold extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () => Navigator.of(context).popUntil((r) => r.isFirst),
-                  child: Image.asset('assets/branding/boykin-badge.png', height: 52),
+                  child: Image.asset('assets/logo.png', height: 52),
                 ),
                 const SizedBox(width: 12),
                 const Text('Service Dog Trainer Pro', style: TextStyle(color: Color(0xFFD4AF37), fontSize: 18, fontWeight: FontWeight.bold)),

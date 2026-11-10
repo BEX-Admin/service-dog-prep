@@ -68,7 +68,7 @@ class _LandingScreenState extends State<LandingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isWide = MediaQuery.of(context).size.width > 800;
+    final isWide = MediaQuery.of(context).size.width > 480;
 
     return Scaffold(
       backgroundColor: const Color(0xFFFFF9F0),
@@ -80,7 +80,7 @@ class _LandingScreenState extends State<LandingScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
               children: [
-                Image.asset('assets/branding/boykin-badge.png', height: 64, fit: BoxFit.contain),
+                Image.asset('assets/logo.png', height: 72, fit: BoxFit.contain),
                 const SizedBox(width: 12),
                 const Text(
                   'Service Dog Trainer Pro',
