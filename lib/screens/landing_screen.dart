@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state.dart';
 import 'auth_screen.dart';
 import 'public_pages.dart';
+import 'layout_utils.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
@@ -68,7 +70,7 @@ class _LandingScreenState extends State<LandingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isWide = MediaQuery.of(context).size.width > 800;
+    final isWide = isWideLayout(context);
 
     return Scaffold(
       backgroundColor: const Color(0xFFFFF9F0),
