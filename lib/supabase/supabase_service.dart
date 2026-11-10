@@ -29,7 +29,10 @@ class SupabaseService {
       'city', 'state', 'zip', 'billing_address', 'microchip', 'vet_name',
       'vet_contact', 'bad_habits', 'photos',
     };
-    final clean = {k: v for k, v in dog.entries if k in allowed && v != null};
+    final clean = <String, dynamic>{
+      for (final e in dog.entries)
+        if (allowed.contains(e.key) && e.value != null) e.key: e.value,
+    };
     await client.from('dogs').insert(clean);
   }
 
