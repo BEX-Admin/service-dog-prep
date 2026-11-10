@@ -21,7 +21,7 @@ class AppShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
-    final isWide = MediaQuery.of(context).size.width > 480;
+    final isWide = MediaQuery.of(context).size.width > 1100;
 
     return Scaffold(
       backgroundColor: const Color(0xFFFFF9F0),
