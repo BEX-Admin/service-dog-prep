@@ -59,7 +59,11 @@ class SupabaseService {
 
   Future<String> uploadDogPhoto(String dogId, String filename, Uint8List bytes) async {
     final path = 'dogs/$dogId/$filename';
-    await client.storage.from('dog-photos').uploadBinary(path, bytes);
+    await client.storage.from('dog-photos').uploadBinary(
+      path,
+      bytes,
+      fileOptions: const FileOptions(upsert: true),
+    );
     return client.storage.from('dog-photos').getPublicUrl(path);
   }
 }
