@@ -1,5 +1,5 @@
 /*
-  Cache-Control: public, max-age=0, must-revalidate
+  Cache-Control: no-cache, no-store, must-revalidate
 /index.html
   Cache-Control: no-cache, no-store, must-revalidate
 /flutter_bootstrap.js
@@ -7,4 +7,4 @@
 /flutter_service_worker.js
   Cache-Control: no-cache, no-store, must-revalidate
 /main.dart.js
-  Cache-Control: public, max-age=0, must-revalidate
+  Cache-Control: no-cache, no-store, must-revalidate

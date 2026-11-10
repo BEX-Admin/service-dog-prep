@@ -27,6 +27,12 @@ jobs:
       - name: Build web
         run: flutter build web --release --web-renderer html
 
+      - name: Bust cache
+        run: |
+          V=$(date +%s)
+          sed -i "s/main.dart.js/main.dart.js?v=$V/g" build/web/flutter_bootstrap.js build/web/index.html || true
+          echo "Cache buster: $V"
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v4
         with:
