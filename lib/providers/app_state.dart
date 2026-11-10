@@ -15,6 +15,14 @@ class AppState extends ChangeNotifier {
 
   AppState() {
     _restoreSession();
+    supabaseService.authState.listen((data) async {
+      final session = data.session;
+      if (session != null) {
+        isLoggedIn = true;
+        await _loadRemoteDogs();
+        notifyListeners();
+      }
+    });
   }
 
   Future<void> _restoreSession() async {

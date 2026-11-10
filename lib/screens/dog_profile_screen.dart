@@ -100,12 +100,10 @@ class _DogProfileScreenState extends State<DogProfileScreen> {
     // Persist to Supabase
     try {
       await state.supabaseService.updateDog(old.id, updated.toMap(state.supabaseService.currentUser?.id ?? ''));
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Dog profile updated')));
     } catch (e) {
-      debugPrint('Update failed: $e');
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Update failed: $e'), duration: const Duration(seconds: 8)));
     }
-    setState(() => _editing = false);
-    if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Dog profile updated')));
-  }
 
   int ageFromBirthdate(String mmddyyyy) {
     final parts = mmddyyyy.split('/');

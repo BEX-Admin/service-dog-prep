@@ -113,9 +113,11 @@ class _PersonalIntakeScreenState extends State<PersonalIntakeScreen> {
           final inserted = await state.supabaseService.insertDog(dogData);
           if (inserted != null && inserted['id'] != null) {
             dogId = inserted['id'].toString();
+          } else if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Save may have failed — no id returned')));
           }
         } catch (e) {
-          if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cloud save failed: $e')));
+          if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cloud save failed: $e'), duration: const Duration(seconds: 8)));
         }
       }
       final dog = Dog(
