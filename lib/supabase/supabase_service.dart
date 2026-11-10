@@ -20,7 +20,7 @@ class SupabaseService {
     return List<Map<String, dynamic>>.from(response);
   }
 
-  Future<void> insertDog(Map<String, dynamic> dog) async {
+  Future<Map<String, dynamic>?> insertDog(Map<String, dynamic> dog) async {
     const allowed = {
       'user_id', 'name', 'breed', 'age', 'size', 'temperament', 'fears', 'goals',
       'family_name', 'contact', 'owner_email', 'owner_phone', 'address',
@@ -33,7 +33,8 @@ class SupabaseService {
       for (final e in dog.entries)
         if (allowed.contains(e.key) && e.value != null) e.key: e.value,
     };
-    await client.from('dogs').insert(clean);
+    final result = await client.from('dogs').insert(clean).select().maybeSingle();
+    return result;
   }
 
   Future<void> updateDog(String id, Map<String, dynamic> dog) async {

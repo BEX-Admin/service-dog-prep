@@ -106,16 +106,20 @@ class _PersonalIntakeScreenState extends State<PersonalIntakeScreen> {
         ownerPhone: _ownerPhone.text.trim(),
         address: _address.text.trim(),
       );
+      String dogId = DateTime.now().millisecondsSinceEpoch.toString() + form.nameController.text;
       if (user != null) {
         dogData['user_id'] = user.id;
         try {
-          await state.supabaseService.insertDog(dogData);
+          final inserted = await state.supabaseService.insertDog(dogData);
+          if (inserted != null && inserted['id'] != null) {
+            dogId = inserted['id'].toString();
+          }
         } catch (e) {
-          if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Saved on this device. Cloud save failed: \$e')));
+          if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cloud save failed: $e')));
         }
       }
       final dog = Dog(
-        id: DateTime.now().millisecondsSinceEpoch.toString() + form.nameController.text,
+        id: dogId,
         name: dogData['name'] as String,
         breed: dogData['breed'] as String? ?? '',
         age: dogData['age'] as int? ?? 0,
