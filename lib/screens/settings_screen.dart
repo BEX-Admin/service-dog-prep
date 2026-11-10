@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../providers/app_state.dart';
 import 'app_shell.dart';
 import 'personal_intake_screen.dart';
@@ -70,9 +71,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
             )),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () {
-              // Persist locally for now; cloud owner profile table can be added later
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Personal profile saved')));
+            onPressed: () async {
+              final state = context.read<AppState>();
+              try {
+                await state.supabaseService.client.auth.updateUser(
+                  UserAttributes(data: {
+                    'name': _name.text.trim(),
+                    'phone': _phone.text.trim(),
+                    'address': _address.text.trim(),
+                    'city': _city.text.trim(),
+                    'state': _state.text.trim(),
+                    'zip': _zip.text.trim(),
+                  }),
+                );
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Personal profile saved')));
+                }
+              } catch (e) {
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Save failed: $e')));
+                }
+              }
             },
             style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFD4AF37), foregroundColor: const Color(0xFF1A2A4A)),
             child: const Text('Save Personal Info'),

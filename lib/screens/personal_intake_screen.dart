@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state.dart';
 import '../models/dog.dart';
@@ -344,12 +345,27 @@ class _DogCard extends StatelessWidget {
             TextFormField(controller: form.vetContactController, decoration: const InputDecoration(labelText: 'Vet phone / email')),
             const SizedBox(height: 8),
             OutlinedButton.icon(
-              onPressed: () {
-                // Placeholder: in production this opens image picker / Supabase Storage upload
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Photo upload coming soon — will save to your dog profile')));
+              onPressed: () async {
+                final picker = ImagePicker();
+                final picked = await picker.pickImage(source: ImageSource.gallery, maxWidth: 1600, imageQuality: 80);
+                if (picked == null) return;
+                final bytes = await picked.readAsBytes();
+                final state = context.read<AppState>();
+                final dogId = form.nameController.text.trim().isEmpty ? 'new' : form.nameController.text.trim();
+                try {
+                  final url = await state.supabaseService.uploadDogPhoto(dogId, picked.name, bytes);
+                  form.photoUrl = url;
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Photo uploaded')));
+                  }
+                } catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Upload failed: $e')));
+                  }
+                }
               },
               icon: const Icon(Icons.photo_camera),
-              label: const Text('Upload dog photo'),
+              label: Text(form.photoUrl == null ? 'Upload dog photo' : 'Photo uploaded — tap to replace'),
             ),
             TextFormField(controller: form.notesController, decoration: const InputDecoration(labelText: 'Anything else we should know'), maxLines: 2),
           ],

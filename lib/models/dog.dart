@@ -30,6 +30,7 @@ class Dog {
   final String microchip;
   final String vetName;
   final String vetContact;
+  final String badHabits;
 
   Dog({
     required this.id,
@@ -63,6 +64,7 @@ class Dog {
     this.microchip = '',
     this.vetName = '',
     this.vetContact = '',
+    this.badHabits = '',
   });
 
   factory Dog.fromMap(Map<String, dynamic> map) {
@@ -97,6 +99,7 @@ class Dog {
       microchip: map['microchip'] ?? '',
       vetName: map['vet_name'] ?? '',
       vetContact: map['vet_contact'] ?? '',
+      badHabits: map['bad_habits'] ?? '',
     );
   }
 
@@ -131,5 +134,6 @@ class Dog {
         'microchip': microchip,
         'vet_name': vetName,
         'vet_contact': vetContact,
+        'bad_habits': badHabits,
       };
 }

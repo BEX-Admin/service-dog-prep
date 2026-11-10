@@ -6,7 +6,7 @@ import 'legal_pages.dart';
 import 'home_screen.dart';
 import 'personal_intake_screen.dart';
 import 'professional_intake_screen.dart';
-import 'training_screen.dart';
+import 'training_regimen_screen.dart';
 import 'schedule_screen.dart';
 import 'weekly_eval_screen.dart';
 import 'skill_library_screen.dart';
@@ -108,6 +108,7 @@ class _NavList extends StatelessWidget {
           state.isProfessional ? const ProfessionalIntakeScreen() : const PersonalIntakeScreen()),
       _NavItem('Dog Profile', Icons.account_circle, const DogProfileScreen()),
       _NavItem('Training', Icons.play_arrow, const TrainingScreen()),
+      _NavItem('Training Plan', Icons.route, const TrainingRegimenScreen()),
       _NavItem('Schedule', Icons.calendar_today, const ScheduleScreen()),
       _NavItem('Reports / Weekly Eval', Icons.assessment, const WeeklyEvalScreen()),
       _NavItem('Skill Library', Icons.library_books, const SkillLibraryScreen()),
