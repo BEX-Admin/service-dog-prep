@@ -346,8 +346,29 @@ class _DogCard extends StatelessWidget {
             const SizedBox(height: 8),
             OutlinedButton.icon(
               onPressed: () async {
+                final source = await showModalBottomSheet<ImageSource>(
+                  context: context,
+                  builder: (ctx) => SafeArea(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.photo_camera),
+                          title: const Text('Take photo'),
+                          onTap: () => Navigator.pop(ctx, ImageSource.camera),
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.photo_library),
+                          title: const Text('Choose from gallery'),
+                          onTap: () => Navigator.pop(ctx, ImageSource.gallery),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+                if (source == null) return;
                 final picker = ImagePicker();
-                final picked = await picker.pickImage(source: ImageSource.gallery, maxWidth: 1600, imageQuality: 80);
+                final picked = await picker.pickImage(source: source, maxWidth: 1600, imageQuality: 80);
                 if (picked == null) return;
                 final bytes = await picked.readAsBytes();
                 final state = context.read<AppState>();
@@ -365,7 +386,7 @@ class _DogCard extends StatelessWidget {
                 }
               },
               icon: const Icon(Icons.photo_camera),
-              label: Text(form.photoUrl == null ? 'Upload dog photo' : 'Photo uploaded — tap to replace'),
+              label: Text(form.photoUrl == null ? 'Add dog photo' : 'Photo added — tap to replace'),
             ),
             TextFormField(controller: form.notesController, decoration: const InputDecoration(labelText: 'Anything else we should know'), maxLines: 2),
           ],
