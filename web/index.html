@@ -16,6 +16,14 @@
   <link rel="shortcut icon" href="favicon.png"/>
   <title>Service Dog Trainer Pro</title>
   <link rel="manifest" href="manifest.json">
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs) {
+        regs.forEach(function(r) { r.unregister(); });
+      });
+    }
+  </script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
