@@ -142,9 +142,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.white,
                     margin: const EdgeInsets.only(bottom: 8),
                     child: ListTile(
-                      leading: const Icon(Icons.pets, color: Color(0xFF1A2A4A)),
+                      leading: d.photos.isNotEmpty
+                          ? CircleAvatar(backgroundImage: NetworkImage(d.photos.first))
+                          : const Icon(Icons.pets, color: Color(0xFF1A2A4A)),
                       title: Text(d.name),
-                      subtitle: Text('${d.breed} • ${d.trainingPath}'),
+                      subtitle: Text('${d.breed} • ${d.trainingPath}${d.birthdate.isNotEmpty ? ' • ${d.birthdate}' : ''}'),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete_outline, color: Colors.red),
                         onPressed: () {

@@ -127,6 +127,7 @@ class _PersonalIntakeScreenState extends State<PersonalIntakeScreen> {
         temperament: dogData['temperament'] as String? ?? '',
         fears: dogData['fears'] as String? ?? '',
         goals: List<String>.from(dogData['goals'] ?? []),
+        photos: List<String>.from(dogData['photos'] ?? []),
         familyName: dogData['family_name'] as String? ?? '',
         ownerEmail: dogData['owner_email'] as String? ?? '',
         ownerPhone: dogData['owner_phone'] as String? ?? '',
@@ -136,6 +137,14 @@ class _PersonalIntakeScreenState extends State<PersonalIntakeScreen> {
         preferredTrainingTimes: dogData['preferred_training_times'] as String? ?? 'Flexible',
         trainingPath: dogData['training_path'] as String? ?? 'Happy Pet / Family Manners',
         notes: dogData['notes'] as String? ?? '',
+        akcName: dogData['akc_name'] as String? ?? '',
+        akcNumber: dogData['akc_number'] as String? ?? '',
+        birthdate: dogData['birthdate'] as String? ?? '',
+        allergies: dogData['allergies'] as String? ?? '',
+        microchip: dogData['microchip'] as String? ?? '',
+        vetName: dogData['vet_name'] as String? ?? '',
+        vetContact: dogData['vet_contact'] as String? ?? '',
+        badHabits: dogData['bad_habits'] as String? ?? '',
       );
       state.addDog(dog);
     }
