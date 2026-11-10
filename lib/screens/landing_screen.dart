@@ -1,4 +1,3 @@
-import 'layout_utils.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -69,7 +68,7 @@ class _LandingScreenState extends State<LandingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isWide = isWideLayout(context);
+    final isWide = MediaQuery.of(context).size.width > 800;
 
     return Scaffold(
       backgroundColor: const Color(0xFFFFF9F0),
@@ -81,7 +80,7 @@ class _LandingScreenState extends State<LandingScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
               children: [
-                Image.asset('assets/logo.png', height: 72, fit: BoxFit.contain),
+                Image.asset('assets/branding/boykin-badge.png', height: 64, fit: BoxFit.contain),
                 const SizedBox(width: 12),
                 const Text(
                   'Service Dog Trainer Pro',
@@ -157,9 +156,9 @@ class _LandingScreenState extends State<LandingScreen> {
                         ],
                       ),
                     ),
-                    // Carousel — taller on mobile so images are easy to see
+                    // Carousel
                     SizedBox(
-                      height: 320,
+                      height: 220,
                       child: PageView.builder(
                         controller: _pageController,
                         onPageChanged: (i) => setState(() => _currentPage = i),
@@ -342,13 +341,13 @@ class _LandingScreenState extends State<LandingScreen> {
 
                   // Marketing section
                   Padding(
-                    padding: EdgeInsets.all(isWide ? 40 : 20),
+                    padding: const EdgeInsets.all(40),
                     child: Column(
                       children: [
-                        Text(
+                        const Text(
                           'Happy Dogs. Happy Families. Confident Community Members.',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: isWide ? 32 : 26, fontWeight: FontWeight.bold, color: const Color(0xFF1A2A4A)),
+                          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xFF1A2A4A)),
                         ),
                         const SizedBox(height: 16),
                         const Text(
