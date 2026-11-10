@@ -51,7 +51,7 @@ class _DogProfileScreenState extends State<DogProfileScreen> {
     _trainingPath = dog.trainingPath;
   }
 
-  void _save() {
+  Future<void> _save() async {
     final state = context.read<AppState>();
     final old = state.currentDog;
     if (old == null) return;
@@ -86,12 +86,19 @@ class _DogProfileScreenState extends State<DogProfileScreen> {
       microchip: _microchip.text.trim(),
       vetName: _vetName.text.trim(),
       vetContact: _vetContact.text.trim(),
+      badHabits: _badHabits.text.trim(),
       photos: old.photos,
     );
     state.removeDog(old.id);
     state.addDog(updated);
+    // Persist to Supabase
+    try {
+      await state.supabaseService.updateDog(old.id, updated.toMap(state.supabaseService.currentUser?.id ?? ''));
+    } catch (e) {
+      debugPrint('Update failed: $e');
+    }
     setState(() => _editing = false);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Dog profile updated')));
+    if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Dog profile updated')));
   }
 
   int ageFromBirthdate(String mmddyyyy) {

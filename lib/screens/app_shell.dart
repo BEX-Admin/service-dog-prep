@@ -6,6 +6,7 @@ import 'legal_pages.dart';
 import 'home_screen.dart';
 import 'personal_intake_screen.dart';
 import 'professional_intake_screen.dart';
+import 'training_screen.dart';
 import 'training_regimen_screen.dart';
 import 'schedule_screen.dart';
 import 'weekly_eval_screen.dart';
